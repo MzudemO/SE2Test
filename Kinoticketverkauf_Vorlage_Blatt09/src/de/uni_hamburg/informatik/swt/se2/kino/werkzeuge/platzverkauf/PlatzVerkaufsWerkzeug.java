@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Platz;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Kinosaal;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Vorstellung;
+import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.barzahlung.BarzahlungsWerkzeug;
 
 /**
  * Mit diesem Werkzeug können Plätze verkauft und storniert werden. Es arbeitet
@@ -23,16 +24,21 @@ import de.uni_hamburg.informatik.swt.se2.kino.materialien.Vorstellung;
  */
 public class PlatzVerkaufsWerkzeug
 {
+    private int _ausgewaehlterGesamtbetrag;
     // Die aktuelle Vorstellung, deren Plätze angezeigt werden. Kann null sein.
     private Vorstellung _vorstellung;
 
     private PlatzVerkaufsWerkzeugUI _ui;
+
+    private BarzahlungsWerkzeug _barzahlungsWerkzeug;
 
     /**
      * Initialisiert das PlatzVerkaufsWerkzeug.
      */
     public PlatzVerkaufsWerkzeug()
     {
+        _barzahlungsWerkzeug = new BarzahlungsWerkzeug();
+
         _ui = new PlatzVerkaufsWerkzeugUI();
         registriereUIAktionen();
         // Am Anfang wird keine Vorstellung angezeigt:
@@ -90,7 +96,12 @@ public class PlatzVerkaufsWerkzeug
      */
     private void fuehreBarzahlungDurch()
     {
-        verkaufePlaetze(_vorstellung);
+        // TODO für Blatt 8: Verkaufen ohne Barzahlungswerkzeug
+        _barzahlungsWerkzeug.fuehreBarzahlungDurch(_ausgewaehlterGesamtbetrag);
+        if (_barzahlungsWerkzeug.barzahlungErfolgreich())
+        {
+            verkaufePlaetze(_vorstellung);
+        }
     }
 
     /**
@@ -111,11 +122,13 @@ public class PlatzVerkaufsWerkzeug
      */
     private void aktualisierePreisanzeige(Set<Platz> plaetze)
     {
+        _ausgewaehlterGesamtbetrag = 0;
         if (istVerkaufenMoeglich(plaetze))
         {
             int preis = _vorstellung.getPreisFuerPlaetze(plaetze);
             _ui.getPreisLabel().setText(
                     "Gesamtpreis: " + preis + " Eurocent");
+            _ausgewaehlterGesamtbetrag = preis;
         }
         else if (istStornierenMoeglich(plaetze))
         {

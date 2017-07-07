@@ -1,5 +1,3 @@
-//TODO test
-
 package de.uni_hamburg.informatik.swt.se2.kino.fachwerte;
 
 import java.util.Calendar;
