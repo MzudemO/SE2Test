@@ -1,4 +1,0 @@
-Interne ToDos bitte mit FIXME markieren. Das Schlüsselwert ToDo ist für Rückbau oder Studi-ToDos reserviert.
-XXX sidn Hinweise, die auch für Studis im Quelltext bleiben können.
-
-Kino könnte ein Service sein. Würde eher der Struktur der Mediathek entsprechen, könnte für TeilnehmerInnen leichter sein.
